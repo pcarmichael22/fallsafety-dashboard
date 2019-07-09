@@ -1,0 +1,14 @@
+*{
+    background:gray;
+
+}
+ol {
+    color:blue;
+}
+ul li a{
+    background-color:pink;
+}
+
+.even {
+    color:teal
+}
