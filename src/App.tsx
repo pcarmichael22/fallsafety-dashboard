@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Table } from './components/material-table/Table';
+import { Table } from './components/org-members-table/Org-member-table';
 import { Login } from './components/Login/Login';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
