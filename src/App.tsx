@@ -45,7 +45,7 @@ function Home() {
 
 function Dashboard() {
   return (
-    <div>
+    <div style={{ padding: '50px' }}>
       <h2>Dashboard</h2>
       <Table />
     </div>
