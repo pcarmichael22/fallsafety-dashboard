@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Test } from './components/TestComponent/Test';
 import { MemberTable } from './components/org-members-table/Org-member-table';
-import { IssueTable } from './components/org-member-issue-table/org-member-issue-table';
+import { IssueTable } from './components/memberIssue/Org-member-issue-table';
 import Login from './components/Login/Login';
 import { AppProvider } from './appContext.js';
 import {
@@ -64,6 +65,9 @@ function Dashboard() {
       </div>
       <div style={{ padding: '50px' }}>
         <IssueTable />
+      </div>
+      <div>
+        <Test />
       </div>
     </>
   );

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-const AppContext = React.createContext([{}, () => {}]);
+// const AppContext = React.createContext([{}, () => {}]);
+const AppContext = React.createContext(['Test Context']);
 
 const AppProvider = props => {
   const [state, setState] = useState({});

@@ -24,10 +24,10 @@ const authHeader =
 export const MemberTable = () => {
   const [users, setUsers] = useState<User[]>([]);
 
-  const [state, setState] = useContext(AppContext);
-  function setContext(state) {
-    setState(state => ({ ...state, user: state.user }));
-  }
+  // const [state, setState] = useContext(AppContext);
+  // function setContext(state) {
+  //   setState(state => ({ ...state, user: state.user }));
+  // }
 
   useEffect(() => {
     const getUsers = async () => {
