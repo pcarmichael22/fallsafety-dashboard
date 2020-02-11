@@ -1,11 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { Table } from './components/org-members-table/Org-member-table';
-import { Login } from './components/Login/Login';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import React, { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { Table } from "./components/org-members-table/Org-member-table";
+import Login from "./components/Login/Login";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
 
 export default function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  console.log("loggedIn:", loggedIn);
   return (
     <Router>
       <div>
@@ -13,7 +21,9 @@ export default function App() {
           <li>
             <Link to="/">Home</Link>
           </li>
-
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
           <li>
             <Link to="/dashboard">Dashboard</Link>
           </li>
@@ -23,10 +33,17 @@ export default function App() {
 
         <Switch>
           <Route exact path="/">
-            <Home />
+            {loggedIn ? <div /> : <Redirect to="/login" />}
+          </Route>
+          <Route exact path="/login">
+            {!loggedIn ? (
+              <Login setLoggedIn={setLoggedIn} />
+            ) : (
+              <Redirect to="/" />
+            )}
           </Route>
           <Route path="/dashboard">
-            <Dashboard />
+            {loggedIn ? <Dashboard /> : <Redirect to="/login" />}
           </Route>
         </Switch>
       </div>
@@ -34,18 +51,9 @@ export default function App() {
   );
 }
 
-function Home() {
-  return (
-    <div>
-      <h2>Login</h2>
-      <Login />
-    </div>
-  );
-}
-
 function Dashboard() {
   return (
-    <div style={{ padding: '50px' }}>
+    <div style={{ padding: "50px" }}>
       <h2>Dashboard</h2>
       <Table />
     </div>
