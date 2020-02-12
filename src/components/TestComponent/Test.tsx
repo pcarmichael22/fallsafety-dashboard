@@ -3,9 +3,7 @@ import { AppContext, useAppState } from "../../appContext";
 import User from "../../interfaces/User";
 
 export const Test = () => {
-  const myUseState = useContext<useAppState | null>(AppContext);
-  if (!myUseState) return null;
-  const { state, setState } = myUseState;
+  const { state, setState } = useContext<useAppState>(AppContext);
   const handleClick = () => {
     setState({ users: [{ app_name: "Worker Safety Pro" } as User] });
   };

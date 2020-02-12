@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import User from './interfaces/User';
+import React, { useState } from "react";
+import User from "./interfaces/User";
 
 interface appState {
   users: User[];
@@ -10,7 +10,10 @@ export interface useAppState {
   setState: React.Dispatch<React.SetStateAction<appState>>;
 }
 
-const AppContext = React.createContext<useAppState | null>(null);
+const AppContext = React.createContext<useAppState>({
+  state: { users: [] },
+  setState: () => {}
+});
 
 type Props = {
   children: React.ReactNode;
