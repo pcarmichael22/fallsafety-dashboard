@@ -22,7 +22,7 @@ import User from '../../interfaces/User';
 const authHeader =
   'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWFkNGQwMzg3NDM5MTQwMDE0OTk5NzMyIiwiYXBwX25hbWUiOiJXb3JrZXJTYWZldHkgUHJvIiwiZGV2aWNlX2lkIjoiOGViNmM5NmItYTI3Ny00MGMzLWEyZjItZjVlNDUzMjU2MTNhIiwiZGV2aWNlX25hbWUiOiJNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV8yKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODAuMC4zOTg3Ljg3IFNhZmFyaS81MzcuMzYiLCJpYXQiOjE1ODEzNjU5NDh9.LLjJ7FlZK63wW0rNLeerE88KCG7r2S7U8wzaM7iMHrI';
 
-export const IssueTable = () => {
+export const EmergencyContacts = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
@@ -54,11 +54,11 @@ export const IssueTable = () => {
             color: '#FFF'
           }
         }}
-        title="Member Issues"
+        title="Emergency Contacts"
         columns={[
           {
-            title: 'Status',
-            field: 'status',
+            title: 'Name',
+            field: 'user_name',
             cellStyle: {
               backgroundColor: '#039be5',
               color: '#FFF'
@@ -67,10 +67,10 @@ export const IssueTable = () => {
               backgroundColor: '#039be5'
             }
           },
-          { title: 'Name', field: 'user_name' },
-          { title: 'Issue', field: 'issue' },
-          { title: 'Email', field: 'email' },
-          { title: 'App', field: 'app' }
+          { title: 'Description', field: 'description' },
+          { title: 'Voice', field: 'voice' },
+          { title: 'Text', field: 'text' },
+          { title: 'Email', field: 'email' }
         ]}
         data={users}
       />

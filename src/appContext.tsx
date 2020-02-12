@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import User from "./interfaces/User";
+import React, { useState } from 'react';
+import User from './interfaces/User';
 
 interface appState {
   users: User[];
