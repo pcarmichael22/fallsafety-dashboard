@@ -1,5 +1,5 @@
-import EmergencyContacts from './EmergencyContacts';
+import EmergencyContact from './EmergencyContact';
 
 export default interface Configs {
-  emergency_contacts: EmergencyContacts;
+  emergency_contacts: EmergencyContact[];
 }

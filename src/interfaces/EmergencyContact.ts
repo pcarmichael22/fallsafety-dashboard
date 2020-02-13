@@ -1,4 +1,4 @@
-export default interface EmergencyContacts {
+export default interface EmergencyContact {
   Name: string;
   Description: string;
   Voice: string;
