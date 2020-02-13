@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Test } from './components/TestComponent/Test';
 import { MemberTable } from './components/org-members-table/Org-member-table';
 import { TotalHours } from './components/OrgWidgets/Total-hours';
 import { TotalMembers } from './components/OrgWidgets/Total-members';
@@ -81,9 +80,6 @@ function Dashboard() {
       </div>
       <div style={{ padding: '50px' }}>
         <Alarms />
-      </div>
-      <div>
-        <Test />
       </div>
     </>
   );

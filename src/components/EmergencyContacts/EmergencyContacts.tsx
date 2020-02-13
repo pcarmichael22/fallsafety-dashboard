@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { AppContext, useAppState } from '../../appContext';
 import ReactDOM from 'react-dom';
 import MaterialTable from 'material-table';
 import Search from '@material-ui/icons/Search';
@@ -13,36 +14,41 @@ import Check from '@material-ui/icons/Check';
 import FilterList from '@material-ui/icons/FilterList';
 import Remove from '@material-ui/icons/Remove';
 import User from '../../interfaces/User';
+import Configs from '../../interfaces/Configs';
 
-// export interface User {
-//   app_name: string;
-//   org_accepted: string;
-// }
-
+interface useConfigState {
+  state: { configs: Configs[] };
+  setState: React.Dispatch<React.SetStateAction<{ configs: Configs[] }>>;
+}
 const authHeader =
-  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWFkNGQwMzg3NDM5MTQwMDE0OTk5NzMyIiwiYXBwX25hbWUiOiJXb3JrZXJTYWZldHkgUHJvIiwiZGV2aWNlX2lkIjoiOGViNmM5NmItYTI3Ny00MGMzLWEyZjItZjVlNDUzMjU2MTNhIiwiZGV2aWNlX25hbWUiOiJNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV8yKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODAuMC4zOTg3Ljg3IFNhZmFyaS81MzcuMzYiLCJpYXQiOjE1ODEzNjU5NDh9.LLjJ7FlZK63wW0rNLeerE88KCG7r2S7U8wzaM7iMHrI';
+  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWFkNGQwMzg3NDM5MTQwMDE0OTk5NzMyIiwiYXBwX25hbWUiOiJXb3JrZXJTYWZldHkgUHJvIiwiZGV2aWNlX2lkIjoiODJkNWIxMjMtYmVlZi00ODE0LWE1OTMtZDMzNzQ3NGEzYjdmIiwiZGV2aWNlX25hbWUiOiJNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV8wKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODAuMC4zOTg3LjEwMCBTYWZhcmkvNTM3LjM2IiwiaWF0IjoxNTgxNTMyNDYzfQ.XCSThbXCbrLm7JMRw_Jjj3bxnKx4cYWvwkQn-mJFY_E';
 
 export const EmergencyContacts = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const { state, setState } = useContext<useAppState>(AppContext);
+  const { configs, setConfigs } = useState<useConfigState>();
 
   useEffect(() => {
-    const getUsers = async () => {
+    const getEmergencyContacts = async () => {
       const requestHeaders: HeadersInit = new Headers();
       requestHeaders.set('Authorization', authHeader);
       try {
         const result = await fetch(
-          'https://dash-test.fallsafetyapp.com/orgs/18612/users',
+          'https://dash-test.fallsafetyapp.com/orgs/18612/configs',
           {
             headers: requestHeaders
           }
         ).then(response => response.json());
+        console.log(result.configs);
 
-        setUsers(result.users);
+        setState({
+          ...state,
+          configs: result.configs
+        });
       } catch (e) {
         console.log(e);
       }
     };
-    getUsers();
+    getEmergencyContacts();
   }, []);
 
   return (
@@ -72,7 +78,7 @@ export const EmergencyContacts = () => {
           { title: 'Text', field: 'text' },
           { title: 'Email', field: 'email' }
         ]}
-        data={users}
+        data={[{ user_name: 'Test' }]}
       />
     </div>
   );

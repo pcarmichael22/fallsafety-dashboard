@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { AppContext, useAppState } from '../../appContext';
 import ReactDOM from 'react-dom';
 import MaterialTable from 'material-table';
 import Search from '@material-ui/icons/Search';
@@ -14,36 +15,61 @@ import FilterList from '@material-ui/icons/FilterList';
 import Remove from '@material-ui/icons/Remove';
 import User from '../../interfaces/User';
 
-// export interface User {
-//   app_name: string;
-//   org_accepted: string;
-// }
-
-const authHeader =
-  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWFkNGQwMzg3NDM5MTQwMDE0OTk5NzMyIiwiYXBwX25hbWUiOiJXb3JrZXJTYWZldHkgUHJvIiwiZGV2aWNlX2lkIjoiOGViNmM5NmItYTI3Ny00MGMzLWEyZjItZjVlNDUzMjU2MTNhIiwiZGV2aWNlX25hbWUiOiJNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV8yKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODAuMC4zOTg3Ljg3IFNhZmFyaS81MzcuMzYiLCJpYXQiOjE1ODEzNjU5NDh9.LLjJ7FlZK63wW0rNLeerE88KCG7r2S7U8wzaM7iMHrI';
-
 export const IssueTable = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  // const [users, setUsers] = useState<User[]>([]);
+  const { state, setState } = useContext<useAppState>(AppContext);
 
-  useEffect(() => {
-    const getUsers = async () => {
-      const requestHeaders: HeadersInit = new Headers();
-      requestHeaders.set('Authorization', authHeader);
-      try {
-        const result = await fetch(
-          'https://dash-test.fallsafetyapp.com/orgs/18612/users',
-          {
-            headers: requestHeaders
-          }
-        ).then(response => response.json());
+  function filterOrg(user: any) {
+    const status = [];
+    let flag = false;
+    if (user.org_id && !user.org_accepted) {
+      status.push('Pending join organization request');
+      flag = true;
+    }
+    if (!user.email_enabled) {
+      status.push('Email not deliverable');
+      flag = true;
+    }
+    if (
+      'background_refresh_enabled' in user &&
+      !user.background_refresh_enabled
+    ) {
+      status.push('Background refresh not enabled');
+      flag = true;
+    }
+    if ('motion_activity_enabled' in user && !user.motion_activity_enabled) {
+      status.push('Motion activity not enabled');
+      flag = true;
+    }
+    if (
+      'background_motion_working' in user &&
+      !user.background_motion_working
+    ) {
+      status.push('Background motion not working');
+      flag = true;
+    }
+    if (user.battery_state === 'unplugged' && user.battery_level <= 10) {
+      status.push('Low battery on unplugged device (10% or less battery)');
+      flag = true;
+    }
+    // if (!user.last_check_in_id.app_location_enabled) {
+    //   status.push(user.app_name + ' location not enabled');
+    //   flag = true;
+    // }
+    // if (!user.last_check_in_id.location_services_enabled) {
+    //   status.push('Location services not enabled');
+    //   flag = true;
+    // }
+    if (!user.client_subscribed && !user.server_subscribed) {
+      status.push('No organization subscription');
+      flag = true;
+    }
+    user.status = status;
+    return flag;
+  }
 
-        setUsers(result.users);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getUsers();
-  }, []);
+  const membersWithIssues = state.users.filter(filterOrg);
+  console.log(membersWithIssues);
 
   return (
     <div>
@@ -58,7 +84,7 @@ export const IssueTable = () => {
         columns={[
           {
             title: 'Status',
-            field: 'status',
+            field: 'button',
             cellStyle: {
               backgroundColor: '#039be5',
               color: '#FFF'
@@ -68,11 +94,11 @@ export const IssueTable = () => {
             }
           },
           { title: 'Name', field: 'user_name' },
-          { title: 'Issue', field: 'issue' },
+          { title: 'Issue', field: 'status' },
           { title: 'Email', field: 'email' },
           { title: 'App', field: 'app' }
         ]}
-        data={users}
+        data={membersWithIssues}
       />
     </div>
   );

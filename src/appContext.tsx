@@ -1,8 +1,12 @@
-import React, { useState } from "react";
-import User from "./interfaces/User";
+import React, { useState } from 'react';
+import User from './interfaces/User';
+import Emergency from './interfaces/Emergency';
+import Configs from './interfaces/Configs';
 
 interface appState {
   users: User[];
+  emergencies: Emergency[];
+  configs: Configs[];
 }
 
 export interface useAppState {
@@ -11,7 +15,7 @@ export interface useAppState {
 }
 
 const AppContext = React.createContext<useAppState>({
-  state: { users: [] },
+  state: { users: [], emergencies: [], configs: [] },
   setState: () => {}
 });
 
@@ -20,7 +24,11 @@ type Props = {
 };
 
 const AppProvider = ({ children }: Props): JSX.Element => {
-  const [state, setState] = useState({ users: [] as User[] });
+  const [state, setState] = useState({
+    users: [] as User[],
+    emergencies: [] as Emergency[],
+    configs: [] as Configs[]
+  });
 
   return (
     <AppContext.Provider value={{ state, setState }}>
