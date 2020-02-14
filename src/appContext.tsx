@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import User from './interfaces/User';
 import Emergency from './interfaces/Emergency';
 import Configs from './interfaces/Configs';
+import Org_tree from './interfaces/OrgTree';
 
 interface appState {
   users: User[];
   emergencies: Emergency[];
   configs: Configs[];
+  orgtree: Org_tree[];
 }
 
 export interface useAppState {
@@ -15,7 +17,7 @@ export interface useAppState {
 }
 
 const AppContext = React.createContext<useAppState>({
-  state: { users: [], emergencies: [], configs: [] },
+  state: { users: [], emergencies: [], configs: [], orgtree: [] },
   setState: () => {}
 });
 
@@ -27,7 +29,8 @@ const AppProvider = ({ children }: Props): JSX.Element => {
   const [state, setState] = useState({
     users: [] as User[],
     emergencies: [] as Emergency[],
-    configs: [] as Configs[]
+    configs: [] as Configs[],
+    orgtree: [] as Org_tree[]
   });
 
   return (

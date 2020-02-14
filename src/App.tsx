@@ -7,6 +7,7 @@ import { TotalMembers } from './components/OrgWidgets/Total-members';
 import { DaysSinceAlarm } from './components/OrgWidgets/Days-since-alarm';
 import { IssueTable } from './components/memberIssue/Org-member-issue-table';
 import { EmergencyContacts } from './components/EmergencyContacts/EmergencyContacts';
+import FileSystemNavigator from './components/Sidebar/Org-sidebar';
 import { Alarms } from './components/Alarms/Alarms';
 import Login from './components/Login/Login';
 import { AppProvider } from './appContext';
@@ -80,6 +81,9 @@ function Dashboard() {
       </div>
       <div style={{ padding: '50px' }}>
         <Alarms />
+      </div>
+      <div>
+        <FileSystemNavigator />
       </div>
     </>
   );
